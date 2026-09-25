@@ -2,394 +2,1240 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
   <meta name="theme-color" content="#5d1027">
   <meta name="color-scheme" content="light">
-  <title>My Academic Vault</title>
-  <meta name="description" content="Private academic results, assignments and payment receipt archive.">
 
+  <title>My Academic Vault</title>
+
+  <meta
+    name="description"
+    content="Private academic results, assignments and payment receipt archive."
+  >
+
+  <!-- =========================================================
+       GOOGLE FONT
+  ========================================================== -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <link
-        rel="stylesheet"
-        href="styles.css"
-    >
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- =========================================================
+       MAIN STYLES
+  ========================================================== -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-  <!-- ========================= AUTH ========================= -->
+  <!-- =========================================================
+       AUTHENTICATION
+  ========================================================== -->
+
   <main id="authShell" class="auth-shell">
 
+    <!-- ========================= LOGIN ========================= -->
+
     <section id="loginScreen" class="auth-card">
+
       <div class="brand-mark">AV</div>
-      <p class="eyebrow">PRIVATE STUDENT RECORDS</p>
-      <h1>My Academic Vault</h1>
-      <p class="auth-subtitle">
-        Keep your academic results and payment evidence organized in one secure place.
+
+      <p class="eyebrow">
+        PRIVATE STUDENT RECORDS
       </p>
 
+      <h1>
+        My Academic Vault
+      </h1>
+
+      <p class="auth-subtitle">
+        Keep your academic results and payment evidence organized
+        in one secure place.
+      </p>
+
+
+      <!-- LOGIN FORM -->
+
       <form id="loginForm" class="form-stack">
+
         <label>
           Email address
-          <input id="loginEmail" type="email" autocomplete="email" placeholder="you@example.com" required>
+
+          <input
+            id="loginEmail"
+            type="email"
+            autocomplete="email"
+            placeholder="you@example.com"
+            required
+          >
         </label>
+
 
         <label>
           Password
-          <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Enter your password" required>
+
+          <div class="password-field">
+
+            <input
+              id="loginPassword"
+              type="password"
+              autocomplete="current-password"
+              placeholder="Enter your password"
+              required
+            >
+
+            <button
+              type="button"
+              class="password-toggle"
+              id="loginPasswordToggle"
+              aria-label="Show password"
+              aria-pressed="false"
+            >
+
+              <!-- Open eye -->
+
+              <svg
+                class="eye-icon eye-open"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"
+                />
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="3"
+                />
+              </svg>
+
+
+              <!-- Closed eye -->
+
+              <svg
+                class="eye-icon eye-closed"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M3 3l18 18"/>
+                <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"/>
+                <path
+                  d="M9.9 4.2A10.9 10.9 0 0 1 12 4c6.5 0 10 8 10 8a17.8 17.8 0 0 1-3.1 4.4"
+                />
+                <path
+                  d="M6.6 6.6C3.7 8.5 2 12 2 12s3.5 8 10 8c1.3 0 2.5-.3 3.6-.8"
+                />
+              </svg>
+
+            </button>
+
+          </div>
+
         </label>
 
-        <button class="primary-btn" type="submit">Sign In</button>
-        <p id="loginMessage" class="form-message"></p>
+
+        <button
+          class="primary-btn"
+          type="submit"
+        >
+          Sign In
+        </button>
+
+
+        <p
+          id="loginMessage"
+          class="form-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+
       </form>
 
-      <button id="showSignupBtn" class="link-btn" type="button">
+
+      <button
+        id="showSignupBtn"
+        class="link-btn"
+        type="button"
+      >
         Create a new vault
       </button>
+
     </section>
 
 
-    <section id="signupScreen" class="auth-card hidden">
+    <!-- ========================= SIGNUP ========================= -->
+
+    <section
+      id="signupScreen"
+      class="auth-card hidden"
+    >
+
       <div class="brand-mark">AV</div>
-      <p class="eyebrow">GET STARTED</p>
-      <h1>Create Your Vault</h1>
+
+      <p class="eyebrow">
+        GET STARTED
+      </p>
+
+      <h1>
+        Create Your Vault
+      </h1>
+
       <p class="auth-subtitle">
         Create your private account for your academic records.
       </p>
 
-      <form id="signupForm" class="form-stack">
+
+      <!-- SIGNUP FORM -->
+
+      <form
+        id="signupForm"
+        class="form-stack"
+      >
+
+        <!-- FULL NAME -->
+
         <label>
           Full name
-          <input id="signupName" type="text" autocomplete="name" placeholder="Your full name" required>
+
+          <input
+            id="signupName"
+            type="text"
+            autocomplete="name"
+            placeholder="Your full name"
+            required
+          >
         </label>
+
+
+        <!-- UNIVERSITY / COLLEGE -->
+
+        <label>
+          University / College
+
+          <input
+            id="signupUniversity"
+            type="text"
+            autocomplete="organization"
+            placeholder="e.g. University of Malawi"
+            required
+          >
+        </label>
+
+
+        <!-- PROGRAMME -->
+
+        <label>
+          Programme
+
+          <input
+            id="signupProgramme"
+            type="text"
+            autocomplete="organization-title"
+            placeholder="e.g. Bachelor of Applied Accounting"
+            required
+          >
+        </label>
+
+
+        <!-- EMAIL -->
 
         <label>
           Email address
-          <input id="signupEmail" type="email" autocomplete="email" placeholder="you@example.com" required>
+
+          <input
+            id="signupEmail"
+            type="email"
+            autocomplete="email"
+            placeholder="you@example.com"
+            required
+          >
         </label>
+
+
+        <!-- PASSWORD -->
 
         <label>
           Password
-          <input id="signupPassword" type="password" autocomplete="new-password" placeholder="At least 6 characters" minlength="6" required>
+
+          <div class="password-field">
+
+            <input
+              id="signupPassword"
+              type="password"
+              autocomplete="new-password"
+              placeholder="Create a strong password"
+              minlength="8"
+              required
+            >
+
+            <button
+              type="button"
+              class="password-toggle"
+              id="signupPasswordToggle"
+              aria-label="Show password"
+              aria-pressed="false"
+            >
+
+              <!-- Open eye -->
+
+              <svg
+                class="eye-icon eye-open"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"
+                />
+
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="3"
+                />
+              </svg>
+
+
+              <!-- Closed eye -->
+
+              <svg
+                class="eye-icon eye-closed"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M3 3l18 18"/>
+
+                <path
+                  d="M10.6 10.6a2 2 0 0 0 2.8 2.8"
+                />
+
+                <path
+                  d="M9.9 4.2A10.9 10.9 0 0 1 12 4c6.5 0 10 8 10 8a17.8 17.8 0 0 1-3.1 4.4"
+                />
+
+                <path
+                  d="M6.6 6.6C3.7 8.5 2 12 2 12s3.5 8 10 8c1.3 0 2.5-.3 3.6-.8"
+                />
+              </svg>
+
+            </button>
+
+          </div>
+
+
+          <small class="password-help">
+            Password must contain at least 8 characters,
+            including one uppercase letter, one lowercase letter,
+            one number, and one symbol.
+          </small>
+
+
+          <!-- PASSWORD REQUIREMENTS -->
+
+          <div
+            id="passwordRequirements"
+            class="password-requirements"
+            aria-live="polite"
+          >
+
+            <span id="reqLength">
+              ○ 8+ characters
+            </span>
+
+            <span id="reqUpper">
+              ○ Uppercase letter
+            </span>
+
+            <span id="reqLower">
+              ○ Lowercase letter
+            </span>
+
+            <span id="reqNumber">
+              ○ Number
+            </span>
+
+            <span id="reqSymbol">
+              ○ Symbol
+            </span>
+
+          </div>
+
         </label>
 
-        <button class="primary-btn" type="submit">Create Account</button>
-        <p id="signupMessage" class="form-message"></p>
+
+        <!-- CREATE ACCOUNT -->
+
+        <button
+          class="primary-btn"
+          type="submit"
+        >
+          Create Account
+        </button>
+
+
+        <p
+          id="signupMessage"
+          class="form-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+
       </form>
 
-      <button id="showLoginBtn" class="link-btn" type="button">
+
+      <button
+        id="showLoginBtn"
+        class="link-btn"
+        type="button"
+      >
         Already have an account? Sign in
       </button>
+
     </section>
 
   </main>
 
 
-  <!-- ========================= APP ========================= -->
-  <div id="app" class="app-shell hidden">
+  <!-- =========================================================
+       MAIN APPLICATION
+  ========================================================== -->
 
-    <aside class="sidebar" id="sidebar">
+  <div
+    id="app"
+    class="app-shell hidden"
+  >
+
+    <!-- ========================= SIDEBAR ========================= -->
+
+    <aside
+      class="sidebar"
+      id="sidebar"
+    >
+
       <div class="sidebar-brand">
-        <div class="brand-mark small">AV</div>
-        <div>
-          <strong>Academic Vault</strong>
-          <span>Private records</span>
+
+        <div class="brand-mark small">
+          AV
         </div>
+
+        <div>
+          <strong>
+            Academic Vault
+          </strong>
+
+          <span>
+            Private records
+          </span>
+        </div>
+
       </div>
 
-      <nav class="sidebar-nav">
-        <button class="nav-btn active" data-section="dashboardSection" type="button">
-          <span>⌂</span> Dashboard
+
+      <!-- NAVIGATION -->
+
+      <nav
+        class="sidebar-nav"
+        aria-label="Main navigation"
+      >
+
+        <button
+          class="nav-btn active"
+          data-section="dashboardSection"
+          type="button"
+        >
+          <span>⌂</span>
+          Dashboard
         </button>
 
-        <button class="nav-btn" data-section="resultsSection" type="button">
-          <span>▣</span> Results
+
+        <button
+          class="nav-btn"
+          data-section="resultsSection"
+          type="button"
+        >
+          <span>▣</span>
+          Results
         </button>
 
-        <button class="nav-btn" data-section="assignmentsSection" type="button">
-          <span>✎</span> Assignments
+
+        <button
+          class="nav-btn"
+          data-section="assignmentsSection"
+          type="button"
+        >
+          <span>✎</span>
+          Assignments
         </button>
 
-        <button class="nav-btn" data-section="paymentsSection" type="button">
-          <span>¤</span> Fees & Receipts
+
+        <button
+          class="nav-btn"
+          data-section="paymentsSection"
+          type="button"
+        >
+          <span>¤</span>
+          Fees &amp; Receipts
         </button>
 
-        <button class="nav-btn" data-section="documentsSection" type="button">
-          <span>▤</span> Documents
+
+        <button
+          class="nav-btn"
+          data-section="documentsSection"
+          type="button"
+        >
+          <span>▤</span>
+          Documents
         </button>
 
-        <button class="nav-btn" data-section="profileSection" type="button">
-          <span>⚙</span> Profile
+
+        <button
+          class="nav-btn"
+          data-section="profileSection"
+          type="button"
+        >
+          <span>⚙</span>
+          Profile
         </button>
+
       </nav>
 
+
+      <!-- SIDEBAR FOOTER -->
+
       <div class="sidebar-footer">
-        <button id="logoutBtn" class="logout-btn" type="button">Sign Out</button>
+
+        <button
+          id="logoutBtn"
+          class="logout-btn"
+          type="button"
+        >
+          Sign Out
+        </button>
+
       </div>
+
     </aside>
 
 
+    <!-- ========================= MAIN SHELL ========================= -->
+
     <div class="main-shell">
 
+      <!-- TOPBAR -->
+
       <header class="topbar">
-        <button id="mobileMenuBtn" class="icon-btn mobile-only" type="button" aria-label="Open menu">☰</button>
+
+        <button
+          id="mobileMenuBtn"
+          class="icon-btn mobile-only"
+          type="button"
+          aria-label="Open menu"
+        >
+          ☰
+        </button>
+
 
         <div>
-          <p class="eyebrow">MY ACADEMIC VAULT</p>
-          <h2 id="welcomeName">Welcome back</h2>
+
+          <p class="eyebrow">
+            MY ACADEMIC VAULT
+          </p>
+
+          <h2 id="welcomeName">
+            Welcome back
+          </h2>
+
         </div>
 
-        <div class="topbar-badge">Private</div>
+
+        <div class="topbar-badge">
+          Private
+        </div>
+
       </header>
 
 
+      <!-- ========================= CONTENT ========================= -->
+
       <main class="content">
 
-        <!-- ================= DASHBOARD ================= -->
-        <section id="dashboardSection" class="page-section active-section">
+
+        <!-- =========================================================
+             DASHBOARD
+        ========================================================== -->
+
+        <section
+          id="dashboardSection"
+          class="page-section active-section"
+        >
 
           <div class="page-heading">
+
             <div>
-              <p class="eyebrow">OVERVIEW</p>
-              <h1>Dashboard</h1>
-              <p>Keep your degree records ready whenever you need them.</p>
+
+              <p class="eyebrow">
+                OVERVIEW
+              </p>
+
+              <h1>
+                Dashboard
+              </h1>
+
+              <p>
+                Keep your degree records ready whenever you need them.
+              </p>
+
             </div>
+
           </div>
+
+
+          <!-- STATISTICS -->
 
           <div class="stats-grid">
-            <article class="stat-card">
-              <span>Modules</span>
-              <strong id="moduleCount">0</strong>
-              <small>Across your semesters</small>
-            </article>
 
             <article class="stat-card">
-              <span>Academic Records</span>
-              <strong id="recordCount">0</strong>
-              <small>Assignments, mid & end semester</small>
+
+              <span>
+                Modules
+              </span>
+
+              <strong id="moduleCount">
+                0
+              </strong>
+
+              <small>
+                Across your semesters
+              </small>
+
             </article>
 
-            <article class="stat-card">
-              <span>Payments</span>
-              <strong id="paymentCount">0</strong>
-              <small>Fees and student union</small>
-            </article>
 
             <article class="stat-card">
-              <span>Documents</span>
-              <strong id="documentCount">0</strong>
-              <small>Receipts and files</small>
+
+              <span>
+                Academic Records
+              </span>
+
+              <strong id="recordCount">
+                0
+              </strong>
+
+              <small>
+                Assignments, mid &amp; end semester
+              </small>
+
             </article>
+
+
+            <article class="stat-card">
+
+              <span>
+                Payments
+              </span>
+
+              <strong id="paymentCount">
+                0
+              </strong>
+
+              <small>
+                Fees and student union
+              </small>
+
+            </article>
+
+
+            <article class="stat-card">
+
+              <span>
+                Documents
+              </span>
+
+              <strong id="documentCount">
+                0
+              </strong>
+
+              <small>
+                Receipts and files
+              </small>
+
+            </article>
+
           </div>
 
+
+          <!-- DASHBOARD GRID -->
 
           <div class="dashboard-grid">
 
+
+            <!-- SEMESTER PROGRESS -->
+
             <section class="panel">
+
               <div class="panel-heading">
+
                 <div>
-                  <p class="eyebrow">SEMESTERS</p>
-                  <h2>Academic progress</h2>
+
+                  <p class="eyebrow">
+                    SEMESTERS
+                  </p>
+
+                  <h2>
+                    Academic progress
+                  </h2>
+
                 </div>
-                <span class="soft-badge">4 years · 2 semesters</span>
+
+                <span class="soft-badge">
+                  4 years · 2 semesters
+                </span>
+
               </div>
 
-              <div id="semesterProgress" class="semester-grid"></div>
+
+              <div
+                id="semesterProgress"
+                class="semester-grid"
+              ></div>
+
             </section>
 
 
+            <!-- QUICK ACTIONS -->
+
             <section class="panel">
+
               <div class="panel-heading">
+
                 <div>
-                  <p class="eyebrow">QUICK ACTIONS</p>
-                  <h2>Save a record</h2>
+
+                  <p class="eyebrow">
+                    QUICK ACTIONS
+                  </p>
+
+                  <h2>
+                    Save a record
+                  </h2>
+
                 </div>
+
               </div>
+
 
               <div class="quick-actions">
-                <button class="quick-btn" data-section="resultsSection" type="button">
+
+                <button
+                  class="quick-btn"
+                  data-section="resultsSection"
+                  type="button"
+                >
                   <span>▣</span>
-                  <strong>Manage Results</strong>
-                  <small>Add module marks</small>
+
+                  <strong>
+                    Manage Results
+                  </strong>
+
+                  <small>
+                    Add module marks
+                  </small>
                 </button>
 
-                <button class="quick-btn" data-section="assignmentsSection" type="button">
+
+                <button
+                  class="quick-btn"
+                  data-section="assignmentsSection"
+                  type="button"
+                >
                   <span>✎</span>
-                  <strong>Add Assignment</strong>
-                  <small>Save assignment marks</small>
+
+                  <strong>
+                    Add Assignment
+                  </strong>
+
+                  <small>
+                    Save assignment marks
+                  </small>
                 </button>
 
-                <button class="quick-btn" data-section="paymentsSection" type="button">
+
+                <button
+                  class="quick-btn"
+                  data-section="paymentsSection"
+                  type="button"
+                >
                   <span>¤</span>
-                  <strong>Save Payment</strong>
-                  <small>Keep your receipt evidence</small>
+
+                  <strong>
+                    Save Payment
+                  </strong>
+
+                  <small>
+                    Keep your receipt evidence
+                  </small>
                 </button>
 
-                <button class="quick-btn" data-section="profileSection" type="button">
+
+                <button
+                  class="quick-btn"
+                  data-section="profileSection"
+                  type="button"
+                >
                   <span>⚙</span>
-                  <strong>Update Profile</strong>
-                  <small>Student details</small>
+
+                  <strong>
+                    Update Profile
+                  </strong>
+
+                  <small>
+                    Student details
+                  </small>
                 </button>
+
               </div>
+
             </section>
 
           </div>
 
 
+          <!-- NOTICE -->
+
           <section class="panel notice-panel">
-            <div class="notice-icon">✓</div>
-            <div>
-              <strong>Your records stay organized by semester.</strong>
-              <p>
-                Each academic year has Semester 1 and Semester 2. Results are stored against individual modules, while payment receipts are stored against their semester.
-              </p>
+
+            <div class="notice-icon">
+              ✓
             </div>
+
+            <div>
+
+              <strong>
+                Your records stay organized by semester.
+              </strong>
+
+              <p>
+                Each academic year has Semester 1 and Semester 2.
+                Results are stored against individual modules,
+                while payment receipts are stored against their semester.
+              </p>
+
+            </div>
+
           </section>
 
         </section>
 
 
-        <!-- ================= RESULTS ================= -->
-        <section id="resultsSection" class="page-section">
+        <!-- =========================================================
+             RESULTS
+        ========================================================== -->
+
+        <section
+          id="resultsSection"
+          class="page-section"
+        >
 
           <div class="page-heading page-heading-row">
+
             <div>
-              <p class="eyebrow">ACADEMIC RESULTS</p>
-              <h1>Modules & Results</h1>
-              <p>Store assignment, mid-semester and end-semester results for each module.</p>
+
+              <p class="eyebrow">
+                ACADEMIC RESULTS
+              </p>
+
+              <h1>
+                Modules &amp; Results
+              </h1>
+
+              <p>
+                Store assignment, mid-semester and end-semester
+                results for each module.
+              </p>
+
             </div>
 
-            <button id="addModuleBtn" class="primary-btn" type="button">+ Add Module</button>
+
+            <button
+              id="addModuleBtn"
+              class="primary-btn"
+              type="button"
+            >
+              + Add Module
+            </button>
+
           </div>
+
+
+          <!-- FILTERS -->
 
           <div class="filter-bar">
+
             <select id="resultsYearFilter">
-              <option value="">All years</option>
-              <option value="1">Year 1</option>
-              <option value="2">Year 2</option>
-              <option value="3">Year 3</option>
-              <option value="4">Year 4</option>
+
+              <option value="">
+                All years
+              </option>
+
+              <option value="1">
+                Year 1
+              </option>
+
+              <option value="2">
+                Year 2
+              </option>
+
+              <option value="3">
+                Year 3
+              </option>
+
+              <option value="4">
+                Year 4
+              </option>
+
             </select>
+
 
             <select id="resultsSemesterFilter">
-              <option value="">All semesters</option>
-              <option value="1">Semester 1</option>
-              <option value="2">Semester 2</option>
+
+              <option value="">
+                All semesters
+              </option>
+
+              <option value="1">
+                Semester 1
+              </option>
+
+              <option value="2">
+                Semester 2
+              </option>
+
             </select>
+
           </div>
 
-          <div id="modulesContainer" class="card-grid"></div>
+
+          <div
+            id="modulesContainer"
+            class="card-grid"
+          ></div>
 
         </section>
 
 
-        <!-- ================= ASSIGNMENTS ================= -->
-        <section id="assignmentsSection" class="page-section">
+        <!-- =========================================================
+             ASSIGNMENTS
+        ========================================================== -->
+
+        <section
+          id="assignmentsSection"
+          class="page-section"
+        >
 
           <div class="page-heading page-heading-row">
+
             <div>
-              <p class="eyebrow">COURSEWORK</p>
-              <h1>Assignments</h1>
-              <p>Keep a separate view of all assignment results.</p>
+
+              <p class="eyebrow">
+                COURSEWORK
+              </p>
+
+              <h1>
+                Assignments
+              </h1>
+
+              <p>
+                Keep a separate view of all assignment results.
+              </p>
+
             </div>
 
-            <button id="addAssignmentBtn" class="primary-btn" type="button">+ Add Assignment</button>
+
+            <button
+              id="addAssignmentBtn"
+              class="primary-btn"
+              type="button"
+            >
+              + Add Assignment
+            </button>
+
           </div>
 
-          <div id="assignmentsContainer" class="card-grid"></div>
+
+          <div
+            id="assignmentsContainer"
+            class="card-grid"
+          ></div>
 
         </section>
 
 
-        <!-- ================= PAYMENTS ================= -->
-        <section id="paymentsSection" class="page-section">
+        <!-- =========================================================
+             PAYMENTS
+        ========================================================== -->
+
+        <section
+          id="paymentsSection"
+          class="page-section"
+        >
 
           <div class="page-heading page-heading-row">
+
             <div>
-              <p class="eyebrow">FINANCIAL RECORDS</p>
-              <h1>Fees & Receipts</h1>
-              <p>Store tuition and student union payments for every semester.</p>
+
+              <p class="eyebrow">
+                FINANCIAL RECORDS
+              </p>
+
+              <h1>
+                Fees &amp; Receipts
+              </h1>
+
+              <p>
+                Store tuition and student union payments
+                for every semester.
+              </p>
+
             </div>
 
-            <button id="addPaymentBtn" class="primary-btn" type="button">+ Add Payment</button>
+
+            <button
+              id="addPaymentBtn"
+              class="primary-btn"
+              type="button"
+            >
+              + Add Payment
+            </button>
+
           </div>
+
 
           <div class="payment-summary">
+
             <div class="summary-card">
-              <span>Total recorded payments</span>
-              <strong id="paymentTotal">MWK 0.00</strong>
+
+              <span>
+                Total recorded payments
+              </span>
+
+              <strong id="paymentTotal">
+                MWK 0.00
+              </strong>
+
             </div>
+
           </div>
 
-          <div id="paymentsContainer" class="card-grid"></div>
+
+          <div
+            id="paymentsContainer"
+            class="card-grid"
+          ></div>
 
         </section>
 
 
-        <!-- ================= DOCUMENTS ================= -->
-        <section id="documentsSection" class="page-section">
+        <!-- =========================================================
+             DOCUMENTS
+        ========================================================== -->
+
+        <section
+          id="documentsSection"
+          class="page-section"
+        >
 
           <div class="page-heading">
+
             <div>
-              <p class="eyebrow">FILE ARCHIVE</p>
-              <h1>Documents</h1>
-              <p>Open your uploaded payment receipts and stored files.</p>
+
+              <p class="eyebrow">
+                FILE ARCHIVE
+              </p>
+
+              <h1>
+                Documents
+              </h1>
+
+              <p>
+                Open your uploaded payment receipts
+                and stored files.
+              </p>
+
             </div>
+
           </div>
+
 
           <div class="security-note">
-            <strong>Private storage</strong>
-            <span>Your documents are accessed through temporary secure links rather than public file URLs.</span>
+
+            <strong>
+              Private storage
+            </strong>
+
+            <span>
+              Your documents are accessed through temporary
+              secure links rather than public file URLs.
+            </span>
+
           </div>
 
-          <div id="documentsContainer" class="card-grid"></div>
+
+          <div
+            id="documentsContainer"
+            class="card-grid"
+          ></div>
 
         </section>
 
 
-        <!-- ================= PROFILE ================= -->
-        <section id="profileSection" class="page-section">
+        <!-- =========================================================
+             PROFILE
+        ========================================================== -->
+
+        <section
+          id="profileSection"
+          class="page-section"
+        >
 
           <div class="page-heading">
+
             <div>
-              <p class="eyebrow">PERSONAL DETAILS</p>
-              <h1>Profile</h1>
-              <p>Keep the details attached to your academic vault up to date.</p>
+
+              <p class="eyebrow">
+                PERSONAL DETAILS
+              </p>
+
+              <h1>
+                Profile
+              </h1>
+
+              <p>
+                Keep the details attached to your academic
+                vault up to date.
+              </p>
+
             </div>
+
           </div>
 
+
           <section class="panel profile-panel">
-            <form id="profileForm" class="form-grid">
+
+            <form
+              id="profileForm"
+              class="form-grid"
+            >
+
+              <!-- FULL NAME -->
 
               <label>
+
                 Full name
-                <input id="profileName" type="text" placeholder="Your full name" required>
+
+                <input
+                  id="profileName"
+                  type="text"
+                  placeholder="Your full name"
+                  required
+                >
+
               </label>
+
+
+              <!-- STUDENT NUMBER -->
 
               <label>
+
                 Student number
-                <input id="profileStudentNumber" type="text" placeholder="Student number">
+
+                <input
+                  id="profileStudentNumber"
+                  type="text"
+                  placeholder="Student number"
+                >
+
               </label>
 
+
+              <!-- PROGRAMME -->
+
               <label class="full">
+
                 Programme
-                <input id="profileProgramme" type="text" value="Bachelor of Applied Accounting, Auditing and Information Systems">
+
+                <input
+                  id="profileProgramme"
+                  type="text"
+                  placeholder="Programme"
+                >
+
               </label>
 
+
+              <!-- UNIVERSITY -->
+
               <label class="full">
-                Institution
-                <input id="profileInstitution" type="text" placeholder="College / University">
+
+                University / College
+
+                <input
+                  id="profileInstitution"
+                  type="text"
+                  placeholder="College / University"
+                >
+
               </label>
+
+
+              <!-- SAVE -->
 
               <div class="form-actions full">
-                <button class="primary-btn" type="submit">Save Profile</button>
-                <p id="profileMessage" class="form-message"></p>
+
+                <button
+                  class="primary-btn"
+                  type="submit"
+                >
+                  Save Profile
+                </button>
+
+                <p
+                  id="profileMessage"
+                  class="form-message"
+                  role="status"
+                  aria-live="polite"
+                ></p>
+
               </div>
 
             </form>
+
           </section>
 
         </section>
@@ -397,276 +1243,786 @@
       </main>
 
     </div>
+
   </div>
 
 
-  <!-- ========================= MODALS ========================= -->
+  <!-- =========================================================
+       MODULE MODAL
+  ========================================================== -->
 
-  <div id="moduleModal" class="modal hidden">
+  <div
+    id="moduleModal"
+    class="modal hidden"
+  >
+
     <div class="modal-card">
+
       <div class="modal-heading">
+
         <div>
-          <p class="eyebrow">RESULTS</p>
-          <h2>Add Module</h2>
+
+          <p class="eyebrow">
+            RESULTS
+          </p>
+
+          <h2>
+            Add Module
+          </h2>
+
         </div>
-        <button class="modal-close" data-close="moduleModal" type="button">×</button>
+
+
+        <button
+          class="modal-close"
+          data-close="moduleModal"
+          type="button"
+          aria-label="Close"
+        >
+          ×
+        </button>
+
       </div>
 
-      <form id="moduleForm" class="form-grid">
+
+      <form
+        id="moduleForm"
+        class="form-grid"
+      >
 
         <label>
+
           Academic year
-          <select id="moduleYear" required>
-            <option value="">Choose year</option>
-            <option value="1">Year 1</option>
-            <option value="2">Year 2</option>
-            <option value="3">Year 3</option>
-            <option value="4">Year 4</option>
+
+          <select
+            id="moduleYear"
+            required
+          >
+
+            <option value="">
+              Choose year
+            </option>
+
+            <option value="1">
+              Year 1
+            </option>
+
+            <option value="2">
+              Year 2
+            </option>
+
+            <option value="3">
+              Year 3
+            </option>
+
+            <option value="4">
+              Year 4
+            </option>
+
           </select>
+
         </label>
 
+
         <label>
+
           Semester
-          <select id="moduleSemester" required>
-            <option value="">Choose semester</option>
-            <option value="1">Semester 1</option>
-            <option value="2">Semester 2</option>
+
+          <select
+            id="moduleSemester"
+            required
+          >
+
+            <option value="">
+              Choose semester
+            </option>
+
+            <option value="1">
+              Semester 1
+            </option>
+
+            <option value="2">
+              Semester 2
+            </option>
+
           </select>
+
         </label>
 
+
         <label>
+
           Module code
-          <input id="moduleCode" type="text" placeholder="e.g. ACC401">
+
+          <input
+            id="moduleCode"
+            type="text"
+            placeholder="e.g. ACC401"
+          >
+
         </label>
 
+
         <label>
+
           Module name
-          <input id="moduleName" type="text" placeholder="e.g. Auditing" required>
+
+          <input
+            id="moduleName"
+            type="text"
+            placeholder="e.g. Auditing"
+            required
+          >
+
         </label>
 
+
         <label>
+
           Credits
-          <input id="moduleCredits" type="number" min="0" step="0.5" placeholder="Optional">
+
+          <input
+            id="moduleCredits"
+            type="number"
+            min="0"
+            step="0.5"
+            placeholder="Optional"
+          >
+
         </label>
 
+
         <label>
+
           Lecturer
-          <input id="moduleLecturer" type="text" placeholder="Optional">
+
+          <input
+            id="moduleLecturer"
+            type="text"
+            placeholder="Optional"
+          >
+
         </label>
 
+
         <div class="form-actions full">
-          <button class="primary-btn" type="submit">Save Module</button>
-          <p id="moduleMessage" class="form-message"></p>
+
+          <button
+            class="primary-btn"
+            type="submit"
+          >
+            Save Module
+          </button>
+
+          <p
+            id="moduleMessage"
+            class="form-message"
+            role="status"
+            aria-live="polite"
+          ></p>
+
         </div>
 
       </form>
+
     </div>
+
   </div>
 
 
-  <div id="resultModal" class="modal hidden">
+  <!-- =========================================================
+       RESULT MODAL
+  ========================================================== -->
+
+  <div
+    id="resultModal"
+    class="modal hidden"
+  >
+
     <div class="modal-card">
+
       <div class="modal-heading">
+
         <div>
-          <p class="eyebrow">MODULE RESULT</p>
-          <h2>Add Result</h2>
+
+          <p class="eyebrow">
+            MODULE RESULT
+          </p>
+
+          <h2>
+            Add Result
+          </h2>
+
         </div>
-        <button class="modal-close" data-close="resultModal" type="button">×</button>
+
+
+        <button
+          class="modal-close"
+          data-close="resultModal"
+          type="button"
+          aria-label="Close"
+        >
+          ×
+        </button>
+
       </div>
 
-      <form id="resultForm" class="form-grid">
 
-        <input id="resultModuleId" type="hidden">
+      <form
+        id="resultForm"
+        class="form-grid"
+      >
+
+        <input
+          id="resultModuleId"
+          type="hidden"
+        >
+
 
         <label>
+
           Result type
-          <select id="resultType" required>
-            <option value="assignment">Assignment</option>
-            <option value="mid_semester">Mid Semester</option>
-            <option value="end_semester">End Semester</option>
-            <option value="other">Other</option>
+
+          <select
+            id="resultType"
+            required
+          >
+
+            <option value="assignment">
+              Assignment
+            </option>
+
+            <option value="mid_semester">
+              Mid Semester
+            </option>
+
+            <option value="end_semester">
+              End Semester
+            </option>
+
+            <option value="other">
+              Other
+            </option>
+
           </select>
+
         </label>
 
+
         <label>
+
           Title
-          <input id="resultTitle" type="text" placeholder="e.g. Assignment 1 / Final Exam" required>
+
+          <input
+            id="resultTitle"
+            type="text"
+            placeholder="e.g. Assignment 1 / Final Exam"
+            required
+          >
+
         </label>
 
+
         <label>
+
           Mark
-          <input id="resultMark" type="number" min="0" step="0.01" placeholder="e.g. 72">
+
+          <input
+            id="resultMark"
+            type="number"
+            min="0"
+            step="0.01"
+            placeholder="e.g. 72"
+          >
+
         </label>
 
+
         <label>
+
           Maximum mark
-          <input id="resultMaxMark" type="number" min="0" step="0.01" value="100">
+
+          <input
+            id="resultMaxMark"
+            type="number"
+            min="0"
+            step="0.01"
+            value="100"
+          >
+
         </label>
 
+
         <label>
+
           Grade
-          <input id="resultGrade" type="text" placeholder="e.g. A">
+
+          <input
+            id="resultGrade"
+            type="text"
+            placeholder="e.g. A"
+          >
+
         </label>
+
 
         <label>
+
           Date
-          <input id="resultDate" type="date">
+
+          <input
+            id="resultDate"
+            type="date"
+          >
+
         </label>
+
 
         <label class="full">
+
           Notes
-          <textarea id="resultNotes" rows="3" placeholder="Optional notes"></textarea>
+
+          <textarea
+            id="resultNotes"
+            rows="3"
+            placeholder="Optional notes"
+          ></textarea>
+
         </label>
 
+
         <div class="form-actions full">
-          <button class="primary-btn" type="submit">Save Result</button>
-          <p id="resultMessage" class="form-message"></p>
+
+          <button
+            class="primary-btn"
+            type="submit"
+          >
+            Save Result
+          </button>
+
+          <p
+            id="resultMessage"
+            class="form-message"
+            role="status"
+            aria-live="polite"
+          ></p>
+
         </div>
 
       </form>
+
     </div>
+
   </div>
 
 
-  <div id="assignmentModal" class="modal hidden">
+  <!-- =========================================================
+       ASSIGNMENT MODAL
+  ========================================================== -->
+
+  <div
+    id="assignmentModal"
+    class="modal hidden"
+  >
+
     <div class="modal-card">
+
       <div class="modal-heading">
+
         <div>
-          <p class="eyebrow">COURSEWORK</p>
-          <h2>Add Assignment</h2>
+
+          <p class="eyebrow">
+            COURSEWORK
+          </p>
+
+          <h2>
+            Add Assignment
+          </h2>
+
         </div>
-        <button class="modal-close" data-close="assignmentModal" type="button">×</button>
+
+
+        <button
+          class="modal-close"
+          data-close="assignmentModal"
+          type="button"
+          aria-label="Close"
+        >
+          ×
+        </button>
+
       </div>
 
-      <form id="assignmentForm" class="form-grid">
+
+      <form
+        id="assignmentForm"
+        class="form-grid"
+      >
 
         <label class="full">
+
           Module
-          <select id="assignmentModule" required></select>
+
+          <select
+            id="assignmentModule"
+            required
+          ></select>
+
         </label>
 
+
         <label>
+
           Assignment title
-          <input id="assignmentTitle" type="text" placeholder="e.g. Assignment 1" required>
+
+          <input
+            id="assignmentTitle"
+            type="text"
+            placeholder="e.g. Assignment 1"
+            required
+          >
+
         </label>
 
+
         <label>
+
           Mark
-          <input id="assignmentMark" type="number" min="0" step="0.01">
+
+          <input
+            id="assignmentMark"
+            type="number"
+            min="0"
+            step="0.01"
+          >
+
         </label>
 
+
         <label>
+
           Maximum mark
-          <input id="assignmentMaxMark" type="number" min="0" step="0.01" value="100">
+
+          <input
+            id="assignmentMaxMark"
+            type="number"
+            min="0"
+            step="0.01"
+            value="100"
+          >
+
         </label>
 
+
         <label>
+
           Date
-          <input id="assignmentDate" type="date">
+
+          <input
+            id="assignmentDate"
+            type="date"
+          >
+
         </label>
+
 
         <label class="full">
+
           Notes
-          <textarea id="assignmentNotes" rows="3" placeholder="Optional notes"></textarea>
+
+          <textarea
+            id="assignmentNotes"
+            rows="3"
+            placeholder="Optional notes"
+          ></textarea>
+
         </label>
 
+
         <div class="form-actions full">
-          <button class="primary-btn" type="submit">Save Assignment</button>
-          <p id="assignmentMessage" class="form-message"></p>
+
+          <button
+            class="primary-btn"
+            type="submit"
+          >
+            Save Assignment
+          </button>
+
+          <p
+            id="assignmentMessage"
+            class="form-message"
+            role="status"
+            aria-live="polite"
+          ></p>
+
         </div>
 
       </form>
+
     </div>
+
   </div>
 
 
-  <div id="paymentModal" class="modal hidden">
+  <!-- =========================================================
+       PAYMENT MODAL
+  ========================================================== -->
+
+  <div
+    id="paymentModal"
+    class="modal hidden"
+  >
+
     <div class="modal-card">
+
       <div class="modal-heading">
+
         <div>
-          <p class="eyebrow">PAYMENT ARCHIVE</p>
-          <h2>Add Payment</h2>
+
+          <p class="eyebrow">
+            PAYMENT ARCHIVE
+          </p>
+
+          <h2>
+            Add Payment
+          </h2>
+
         </div>
-        <button class="modal-close" data-close="paymentModal" type="button">×</button>
+
+
+        <button
+          class="modal-close"
+          data-close="paymentModal"
+          type="button"
+          aria-label="Close"
+        >
+          ×
+        </button>
+
       </div>
 
-      <form id="paymentForm" class="form-grid">
+
+      <form
+        id="paymentForm"
+        class="form-grid"
+      >
 
         <label>
+
           Academic year
-          <select id="paymentYear" required>
-            <option value="">Choose year</option>
-            <option value="1">Year 1</option>
-            <option value="2">Year 2</option>
-            <option value="3">Year 3</option>
-            <option value="4">Year 4</option>
+
+          <select
+            id="paymentYear"
+            required
+          >
+
+            <option value="">
+              Choose year
+            </option>
+
+            <option value="1">
+              Year 1
+            </option>
+
+            <option value="2">
+              Year 2
+            </option>
+
+            <option value="3">
+              Year 3
+            </option>
+
+            <option value="4">
+              Year 4
+            </option>
+
           </select>
+
         </label>
 
+
         <label>
+
           Semester
-          <select id="paymentSemester" required>
-            <option value="">Choose semester</option>
-            <option value="1">Semester 1</option>
-            <option value="2">Semester 2</option>
+
+          <select
+            id="paymentSemester"
+            required
+          >
+
+            <option value="">
+              Choose semester
+            </option>
+
+            <option value="1">
+              Semester 1
+            </option>
+
+            <option value="2">
+              Semester 2
+            </option>
+
           </select>
+
         </label>
 
+
         <label>
+
           Payment type
-          <select id="paymentType" required>
-            <option value="tuition">Tuition / Fees</option>
-            <option value="student_union">Student Union Fee</option>
-            <option value="other">Other</option>
+
+          <select
+            id="paymentType"
+            required
+          >
+
+            <option value="tuition">
+              Tuition / Fees
+            </option>
+
+            <option value="student_union">
+              Student Union Fee
+            </option>
+
+            <option value="other">
+              Other
+            </option>
+
           </select>
+
         </label>
 
+
         <label>
+
           Amount
-          <input id="paymentAmount" type="number" min="0" step="0.01" placeholder="MWK" required>
+
+          <input
+            id="paymentAmount"
+            type="number"
+            min="0"
+            step="0.01"
+            placeholder="MWK"
+            required
+          >
+
         </label>
 
+
         <label>
+
           Payment date
-          <input id="paymentDate" type="date" required>
+
+          <input
+            id="paymentDate"
+            type="date"
+            required
+          >
+
         </label>
 
+
         <label>
+
           Receipt number
-          <input id="paymentReceipt" type="text" placeholder="Receipt number">
+
+          <input
+            id="paymentReceipt"
+            type="text"
+            placeholder="Receipt number"
+          >
+
         </label>
 
+
         <label>
+
           Payment method
-          <input id="paymentMethod" type="text" placeholder="Bank / Mobile Money / Cash">
+
+          <input
+            id="paymentMethod"
+            type="text"
+            placeholder="Bank / Mobile Money / Cash"
+          >
+
         </label>
 
+
         <label>
+
           Receipt file
-          <input id="paymentFile" type="file" accept=".pdf,image/*">
-          <small class="field-help">PDF, JPG or PNG recommended.</small>
+
+          <input
+            id="paymentFile"
+            type="file"
+            accept=".pdf,image/*"
+          >
+
+          <small class="field-help">
+            PDF, JPG or PNG recommended.
+          </small>
+
         </label>
+
 
         <label class="full">
+
           Description
-          <textarea id="paymentDescription" rows="3" placeholder="Optional payment notes"></textarea>
+
+          <textarea
+            id="paymentDescription"
+            rows="3"
+            placeholder="Optional payment notes"
+          ></textarea>
+
         </label>
 
+
         <div class="form-actions full">
-          <button class="primary-btn" type="submit">Save Payment</button>
-          <p id="paymentMessage" class="form-message"></p>
+
+          <button
+            class="primary-btn"
+            type="submit"
+          >
+            Save Payment
+          </button>
+
+          <p
+            id="paymentMessage"
+            class="form-message"
+            role="status"
+            aria-live="polite"
+          ></p>
+
         </div>
 
       </form>
+
     </div>
+
   </div>
 
 
-  <div id="toast" class="toast" role="status"></div>
+  <!-- =========================================================
+       TOAST
+  ========================================================== -->
 
+  <div
+    id="toast"
+    class="toast"
+    role="status"
+    aria-live="polite"
+  ></div>
+
+
+  <!-- =========================================================
+       SCRIPTS
+  ========================================================== -->
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script src="config.js"></script>
+
   <script src="app.js"></script>
 
 </body>

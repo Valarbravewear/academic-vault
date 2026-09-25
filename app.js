@@ -3522,6 +3522,95 @@ function renderAll() {
   populateAssignmentModules();
 
 }
+/* =========================================================
+   SIGNUP PASSWORD VALIDATION
+========================================================= */
+
+const signupPassword = document.getElementById("signupPassword");
+const signupPasswordToggle =
+  document.getElementById("signupPasswordToggle");
+
+const reqLength = document.getElementById("reqLength");
+const reqUpper = document.getElementById("reqUpper");
+const reqLower = document.getElementById("reqLower");
+const reqNumber = document.getElementById("reqNumber");
+const reqSymbol = document.getElementById("reqSymbol");
+
+
+function validateSignupPassword(password) {
+  return (
+    password.length >= 8 &&
+    /[A-Z]/.test(password) &&
+    /[a-z]/.test(password) &&
+    /[0-9]/.test(password) &&
+    /[^A-Za-z0-9]/.test(password)
+  );
+}
+
+
+function updatePasswordRequirements(password) {
+  const checks = {
+    length: password.length >= 8,
+    upper: /[A-Z]/.test(password),
+    lower: /[a-z]/.test(password),
+    number: /[0-9]/.test(password),
+    symbol: /[^A-Za-z0-9]/.test(password)
+  };
+
+  reqLength.textContent =
+    `${checks.length ? "✓" : "○"} 8+ characters`;
+
+  reqUpper.textContent =
+    `${checks.upper ? "✓" : "○"} Uppercase letter`;
+
+  reqLower.textContent =
+    `${checks.lower ? "✓" : "○"} Lowercase letter`;
+
+  reqNumber.textContent =
+    `${checks.number ? "✓" : "○"} Number`;
+
+  reqSymbol.textContent =
+    `${checks.symbol ? "✓" : "○"} Symbol`;
+
+  reqLength.classList.toggle("valid", checks.length);
+  reqUpper.classList.toggle("valid", checks.upper);
+  reqLower.classList.toggle("valid", checks.lower);
+  reqNumber.classList.toggle("valid", checks.number);
+  reqSymbol.classList.toggle("valid", checks.symbol);
+
+  return Object.values(checks).every(Boolean);
+}
+
+
+if (signupPassword) {
+  signupPassword.addEventListener("input", () => {
+    updatePasswordRequirements(signupPassword.value);
+  });
+}
+
+
+if (signupPasswordToggle && signupPassword) {
+  signupPasswordToggle.addEventListener("click", () => {
+    const showing = signupPassword.type === "text";
+
+    signupPassword.type = showing ? "password" : "text";
+
+    signupPasswordToggle.classList.toggle(
+      "showing",
+      !showing
+    );
+
+    signupPasswordToggle.setAttribute(
+      "aria-label",
+      showing ? "Show password" : "Hide password"
+    );
+
+    signupPasswordToggle.setAttribute(
+      "aria-pressed",
+      String(!showing)
+    );
+  });
+}
 
 
 /* =========================================================

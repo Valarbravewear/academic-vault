@@ -939,3 +939,108 @@ textarea:focus {
   }
 
 }
+/* =========================================================
+   PASSWORD FIELD
+========================================================= */
+
+.password-field {
+  position: relative;
+  width: 100%;
+}
+
+.password-field input {
+  width: 100%;
+  padding-right: 52px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 38px;
+  height: 38px;
+
+  border: 0;
+  background: transparent;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  color: #64748b;
+
+  border-radius: 8px;
+}
+
+.password-toggle:hover {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.password-toggle:focus-visible {
+  outline: 2px solid #650d22;
+  outline-offset: 2px;
+}
+
+.eye-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.eye-closed {
+  display: none;
+}
+
+.password-toggle.showing .eye-open {
+  display: none;
+}
+
+.password-toggle.showing .eye-closed {
+  display: block;
+}
+
+
+/* =========================================================
+   PASSWORD REQUIREMENTS
+========================================================= */
+
+.password-help {
+  display: block;
+  margin-top: 7px;
+  line-height: 1.5;
+  color: #64748b;
+  font-size: 0.82rem;
+}
+
+.password-requirements {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px 12px;
+  margin-top: 10px;
+  font-size: 0.8rem;
+}
+
+.password-requirements span {
+  color: #64748b;
+  transition: color 0.2s ease;
+}
+
+.password-requirements span.valid {
+  color: #15803d;
+}
+
+.password-requirements span.valid::first-letter {
+  color: #15803d;
+}
+
+
+/* Mobile */
+
+@media (max-width: 480px) {
+  .password-requirements {
+    grid-template-columns: 1fr;
+  }
+}
