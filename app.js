@@ -31,6 +31,8 @@ let records = [];
 let payments = [];
 let documents = [];
 
+let openingApp = false;
+
 
 /* =========================================================
    BASIC HELPERS
@@ -95,9 +97,7 @@ function toast(text) {
   clearTimeout(window.__toastTimer);
 
   window.__toastTimer = setTimeout(() => {
-
     el.classList.remove("show");
-
   }, 3000);
 }
 
@@ -126,9 +126,7 @@ function message(id, text, success = false) {
 ========================================================= */
 
 function closeModal(id) {
-
   $(id)?.classList.add("hidden");
-
 }
 
 
@@ -143,7 +141,6 @@ function getSemester(year, semester) {
       Number(s.academic_year) === Number(year) &&
       Number(s.semester) === Number(semester)
   );
-
 }
 
 
@@ -157,7 +154,6 @@ function getModule(moduleId) {
     module =>
       module.id === moduleId
   );
-
 }
 
 
@@ -175,7 +171,28 @@ function getModuleSemester(moduleId) {
     semester =>
       semester.id === module.semester_id
   ) || null;
+}
 
+
+/* =========================================================
+   AUTH REDIRECT URL
+========================================================= */
+
+function getAuthRedirectUrl() {
+
+  /*
+     When running from GitHub Pages this becomes:
+
+     https://valarbravewear.github.io/academic-vault/
+
+     When running locally it becomes the current
+     Acode localhost address.
+  */
+
+  return (
+    window.location.origin +
+    window.location.pathname
+  );
 }
 
 
@@ -198,11 +215,9 @@ async function init() {
     );
 
     show("authShell");
-
     show("loginScreen");
 
     hide("signupScreen");
-
     hide("app");
 
     return;
@@ -228,7 +243,9 @@ async function init() {
 function bindEvents() {
 
 
-  /* LOGIN */
+  /* =======================================================
+     LOGIN
+  ======================================================= */
 
   $("loginForm")?.addEventListener(
     "submit",
@@ -236,7 +253,9 @@ function bindEvents() {
   );
 
 
-  /* SIGNUP */
+  /* =======================================================
+     SIGNUP
+  ======================================================= */
 
   $("signupForm")?.addEventListener(
     "submit",
@@ -244,7 +263,9 @@ function bindEvents() {
   );
 
 
-  /* AUTH SCREEN */
+  /* =======================================================
+     AUTH SCREEN
+  ======================================================= */
 
   $("showSignupBtn")?.addEventListener(
     "click",
@@ -258,7 +279,9 @@ function bindEvents() {
   );
 
 
-  /* LOGOUT */
+  /* =======================================================
+     LOGOUT
+  ======================================================= */
 
   $("logoutBtn")?.addEventListener(
     "click",
@@ -266,7 +289,9 @@ function bindEvents() {
   );
 
 
-  /* MODULE */
+  /* =======================================================
+     MODULE
+  ======================================================= */
 
   $("addModuleBtn")?.addEventListener(
     "click",
@@ -280,7 +305,9 @@ function bindEvents() {
   );
 
 
-  /* RESULT */
+  /* =======================================================
+     RESULT
+  ======================================================= */
 
   $("resultForm")?.addEventListener(
     "submit",
@@ -288,7 +315,9 @@ function bindEvents() {
   );
 
 
-  /* ASSIGNMENT */
+  /* =======================================================
+     ASSIGNMENT
+  ======================================================= */
 
   $("addAssignmentBtn")?.addEventListener(
     "click",
@@ -302,7 +331,9 @@ function bindEvents() {
   );
 
 
-  /* PAYMENT */
+  /* =======================================================
+     PAYMENT
+  ======================================================= */
 
   $("addPaymentBtn")?.addEventListener(
     "click",
@@ -316,7 +347,9 @@ function bindEvents() {
   );
 
 
-  /* PROFILE */
+  /* =======================================================
+     PROFILE
+  ======================================================= */
 
   $("profileForm")?.addEventListener(
     "submit",
@@ -324,7 +357,9 @@ function bindEvents() {
   );
 
 
-  /* RESULTS FILTERS */
+  /* =======================================================
+     RESULTS FILTERS
+  ======================================================= */
 
   $("resultsYearFilter")?.addEventListener(
     "change",
@@ -338,7 +373,9 @@ function bindEvents() {
   );
 
 
-  /* MOBILE MENU */
+  /* =======================================================
+     MOBILE MENU
+  ======================================================= */
 
   $("mobileMenuBtn")?.addEventListener(
     "click",
@@ -352,7 +389,9 @@ function bindEvents() {
   );
 
 
-  /* NAVIGATION */
+  /* =======================================================
+     NAVIGATION
+  ======================================================= */
 
   document
     .querySelectorAll(".nav-btn")
@@ -376,7 +415,9 @@ function bindEvents() {
     });
 
 
-  /* QUICK BUTTONS */
+  /* =======================================================
+     QUICK BUTTONS
+  ======================================================= */
 
   document
     .querySelectorAll(".quick-btn")
@@ -396,7 +437,9 @@ function bindEvents() {
     });
 
 
-  /* CLOSE BUTTONS */
+  /* =======================================================
+     CLOSE BUTTONS
+  ======================================================= */
 
   document
     .querySelectorAll("[data-close]")
@@ -416,7 +459,9 @@ function bindEvents() {
     });
 
 
-  /* CLOSE MODAL WHEN CLICKING BACKDROP */
+  /* =======================================================
+     CLOSE MODAL WHEN CLICKING BACKDROP
+  ======================================================= */
 
   document
     .querySelectorAll(".modal")
@@ -441,6 +486,207 @@ function bindEvents() {
 
     });
 
+
+  /* =======================================================
+     SIGNUP PASSWORD
+  ======================================================= */
+
+  bindPasswordValidation();
+
+}
+
+
+/* =========================================================
+   PASSWORD VALIDATION
+========================================================= */
+
+function validateSignupPassword(password) {
+
+  return (
+    password.length >= 8 &&
+    /[A-Z]/.test(password) &&
+    /[a-z]/.test(password) &&
+    /[0-9]/.test(password) &&
+    /[^A-Za-z0-9]/.test(password)
+  );
+
+}
+
+
+function updatePasswordRequirements(password) {
+
+  const reqLength = $("reqLength");
+  const reqUpper = $("reqUpper");
+  const reqLower = $("reqLower");
+  const reqNumber = $("reqNumber");
+  const reqSymbol = $("reqSymbol");
+
+
+  const checks = {
+
+    length:
+      password.length >= 8,
+
+    upper:
+      /[A-Z]/.test(password),
+
+    lower:
+      /[a-z]/.test(password),
+
+    number:
+      /[0-9]/.test(password),
+
+    symbol:
+      /[^A-Za-z0-9]/.test(password)
+
+  };
+
+
+  if (reqLength) {
+
+    reqLength.textContent =
+      `${checks.length ? "✓" : "○"} 8+ characters`;
+
+    reqLength.classList.toggle(
+      "valid",
+      checks.length
+    );
+
+  }
+
+
+  if (reqUpper) {
+
+    reqUpper.textContent =
+      `${checks.upper ? "✓" : "○"} Uppercase letter`;
+
+    reqUpper.classList.toggle(
+      "valid",
+      checks.upper
+    );
+
+  }
+
+
+  if (reqLower) {
+
+    reqLower.textContent =
+      `${checks.lower ? "✓" : "○"} Lowercase letter`;
+
+    reqLower.classList.toggle(
+      "valid",
+      checks.lower
+    );
+
+  }
+
+
+  if (reqNumber) {
+
+    reqNumber.textContent =
+      `${checks.number ? "✓" : "○"} Number`;
+
+    reqNumber.classList.toggle(
+      "valid",
+      checks.number
+    );
+
+  }
+
+
+  if (reqSymbol) {
+
+    reqSymbol.textContent =
+      `${checks.symbol ? "✓" : "○"} Symbol`;
+
+    reqSymbol.classList.toggle(
+      "valid",
+      checks.symbol
+    );
+
+  }
+
+
+  return Object
+    .values(checks)
+    .every(Boolean);
+
+}
+
+
+function bindPasswordValidation() {
+
+  const signupPassword =
+    $("signupPassword");
+
+  const signupPasswordToggle =
+    $("signupPasswordToggle");
+
+
+  if (signupPassword) {
+
+    signupPassword.addEventListener(
+      "input",
+      () => {
+
+        updatePasswordRequirements(
+          signupPassword.value
+        );
+
+      }
+    );
+
+
+    updatePasswordRequirements(
+      signupPassword.value
+    );
+
+  }
+
+
+  if (
+    signupPasswordToggle &&
+    signupPassword
+  ) {
+
+    signupPasswordToggle.addEventListener(
+      "click",
+      () => {
+
+        const showing =
+          signupPassword.type === "text";
+
+
+        signupPassword.type =
+          showing
+            ? "password"
+            : "text";
+
+
+        signupPasswordToggle.classList.toggle(
+          "showing",
+          !showing
+        );
+
+
+        signupPasswordToggle.setAttribute(
+          "aria-label",
+          showing
+            ? "Show password"
+            : "Hide password"
+        );
+
+
+        signupPasswordToggle.setAttribute(
+          "aria-pressed",
+          String(!showing)
+        );
+
+      }
+    );
+
+  }
+
 }
 
 
@@ -450,72 +696,105 @@ function bindEvents() {
 
 async function checkAuth() {
 
-  const {
-    data,
-    error
-  } =
-    await db.auth.getSession();
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await db.auth.getSession();
 
 
-  if (error) {
+    if (error) {
 
-    console.error(error);
+      console.error(
+        "Session check failed:",
+        error
+      );
+
+      openLogin();
+
+      return;
+    }
+
+
+    if (data?.session?.user) {
+
+      currentUser =
+        data.session.user;
+
+      await openApp();
+
+    } else {
+
+      currentUser = null;
+
+      openLogin();
+
+    }
+
+
+  } catch (error) {
+
+    console.error(
+      "Authentication startup error:",
+      error
+    );
 
     openLogin();
 
-    return;
   }
 
 
-  if (data?.session?.user) {
-
-    currentUser =
-      data.session.user;
-
-    await openApp();
-
-  } else {
-
-    openLogin();
-
-  }
-
-
-  /* LISTEN FOR AUTH CHANGES */
+  /* =======================================================
+     LISTEN FOR AUTH CHANGES
+  ======================================================= */
 
   db.auth.onAuthStateChange(
     (_event, session) => {
 
-      if (
-        session?.user &&
-        !currentUser
-      ) {
+      if (session?.user) {
 
         currentUser =
           session.user;
 
-        setTimeout(
-          () => openApp(),
-          0
-        );
 
-      }
+        /*
+           The login function already opens the app
+           directly. This listener mainly handles:
 
+           - email confirmation
+           - browser refresh/session restore
+           - other Supabase auth events
+        */
 
-      if (
-        !session &&
-        currentUser
-      ) {
+        if (
+          _event === "SIGNED_IN" &&
+          $("app")?.classList.contains("hidden")
+        ) {
 
-        currentUser = null;
+          setTimeout(
+            () => openApp(),
+            0
+          );
 
-        semesters = [];
-        modules = [];
-        records = [];
-        payments = [];
-        documents = [];
+        }
 
-        openLogin();
+      } else {
+
+        if (currentUser) {
+
+          currentUser = null;
+
+          semesters = [];
+          modules = [];
+          records = [];
+          payments = [];
+          documents = [];
+
+          openLogin();
+
+        }
 
       }
 
@@ -567,184 +846,568 @@ async function handleLogin(event) {
 
   event.preventDefault();
 
-  message(
-    "loginMessage",
-    ""
-  );
+
+  const loginMessage =
+    $("loginMessage");
+
+  const emailInput =
+    $("loginEmail");
+
+  const passwordInput =
+    $("loginPassword");
+
+
+  if (loginMessage) {
+
+    loginMessage.textContent =
+      "";
+
+    loginMessage.className =
+      "message";
+
+  }
 
 
   const email =
-    $("loginEmail")
-      .value
-      .trim();
+    emailInput?.value
+      .trim() ||
+    "";
 
 
   const password =
-    $("loginPassword")
-      .value;
+    passwordInput?.value ||
+    "";
 
 
   if (!email || !password) {
 
-    message(
-      "loginMessage",
-      "Enter your email and password."
-    );
+    if (loginMessage) {
+
+      loginMessage.textContent =
+        "Please enter your email and password.";
+
+      loginMessage.className =
+        "message error";
+
+    }
 
     return;
   }
 
 
-  const {
-    error
-  } =
-    await db.auth.signInWithPassword({
-
-      email,
-
-      password
-
-    });
+  const submitButton =
+    event.submitter ||
+    $("loginForm")
+      ?.querySelector(
+        'button[type="submit"]'
+      );
 
 
-  if (error) {
+  const originalButtonHTML =
+    submitButton?.innerHTML;
 
-    message(
-      "loginMessage",
-      error.message
+
+  try {
+
+    if (submitButton) {
+
+      submitButton.disabled =
+        true;
+
+      submitButton.innerHTML =
+        "Signing in...";
+
+    }
+
+
+    const {
+      data,
+      error
+    } =
+      await db.auth.signInWithPassword({
+
+        email:
+          email,
+
+        password:
+          password
+
+      });
+
+
+    if (error) {
+
+      let errorText =
+        error.message ||
+        "Sign in failed.";
+
+
+      if (
+        /invalid login credentials/i
+          .test(errorText)
+      ) {
+
+        errorText =
+          "Incorrect email or password. Please check your details and try again.";
+
+      }
+
+
+      else if (
+        /email not confirmed/i
+          .test(errorText)
+      ) {
+
+        errorText =
+          "Please confirm your email address before signing in.";
+
+      }
+
+
+      if (loginMessage) {
+
+        loginMessage.textContent =
+          errorText;
+
+        loginMessage.className =
+          "message error";
+
+      }
+
+
+      return;
+
+    }
+
+
+    if (
+      !data?.user ||
+      !data?.session
+    ) {
+
+      if (loginMessage) {
+
+        loginMessage.textContent =
+          "Sign in could not be completed. Please try again.";
+
+        loginMessage.className =
+          "message error";
+
+      }
+
+      return;
+
+    }
+
+
+    /*
+       IMPORTANT FIX
+
+       Do not wait for the Supabase auth listener.
+
+       Set the user and open the dashboard immediately.
+    */
+
+    currentUser =
+      data.user;
+
+
+    if (loginMessage) {
+
+      loginMessage.textContent =
+        "Login successful. Opening Academic Vault...";
+
+      loginMessage.className =
+        "message success";
+
+    }
+
+
+    await openApp();
+
+
+  } catch (error) {
+
+    console.error(
+      "Login error:",
+      error
     );
 
-    return;
+
+    if (loginMessage) {
+
+      loginMessage.textContent =
+        "Something went wrong while signing in. Please try again.";
+
+      loginMessage.className =
+        "message error";
+
+    }
+
+  } finally {
+
+    if (submitButton) {
+
+      submitButton.disabled =
+        false;
+
+      submitButton.innerHTML =
+        originalButtonHTML ||
+        "Sign in";
+
+    }
+
   }
-
-
-  toast(
-    "Login successful."
-  );
 
 }
 
 
 /* =========================================================
-   CREATE ACCOUNT
+   SIGNUP
 ========================================================= */
 
 async function handleSignup(event) {
 
   event.preventDefault();
 
-  message(
-    "signupMessage",
-    ""
-  );
+
+  const signupMessage =
+    $("signupMessage");
+
+
+  if (signupMessage) {
+
+    signupMessage.textContent =
+      "";
+
+    signupMessage.className =
+      "message";
+
+  }
 
 
   const fullName =
     $("signupName")
-      .value
-      .trim();
+      ?.value
+      ?.trim() ||
+    $("signupFullName")
+      ?.value
+      ?.trim() ||
+    "";
 
 
   const email =
     $("signupEmail")
-      .value
-      .trim();
+      ?.value
+      ?.trim() ||
+    "";
 
 
   const password =
     $("signupPassword")
-      .value;
+      ?.value ||
+    "";
+
+
+  /*
+     Optional confirmation password.
+
+     This supports either ID without requiring
+     one to exist.
+  */
+
+  const confirmInput =
+    $("signupConfirmPassword") ||
+    $("signupPasswordConfirm");
+
+
+  const confirmPassword =
+    confirmInput
+      ?.value ||
+    "";
 
 
   if (!fullName) {
 
-    message(
-      "signupMessage",
-      "Enter your full name."
-    );
+    if (signupMessage) {
+
+      signupMessage.textContent =
+        "Please enter your full name.";
+
+      signupMessage.className =
+        "message error";
+
+    }
 
     return;
+
   }
 
 
   if (!email) {
 
-    message(
-      "signupMessage",
-      "Enter your email address."
-    );
+    if (signupMessage) {
+
+      signupMessage.textContent =
+        "Please enter your email address.";
+
+      signupMessage.className =
+        "message error";
+
+    }
 
     return;
+
   }
 
 
-  if (password.length < 6) {
+  if (!password) {
 
-    message(
-      "signupMessage",
-      "Password must be at least 6 characters."
-    );
+    if (signupMessage) {
+
+      signupMessage.textContent =
+        "Please create a password.";
+
+      signupMessage.className =
+        "message error";
+
+    }
 
     return;
+
   }
 
 
-  const {
-    data,
-    error
-  } =
-    await db.auth.signUp({
+  if (
+    !validateSignupPassword(
+      password
+    )
+  ) {
 
-      email,
+    if (signupMessage) {
 
-      password,
+      signupMessage.textContent =
+        "Password must contain at least 8 characters, an uppercase letter, a lowercase letter, a number, and a symbol.";
 
-      options: {
+      signupMessage.className =
+        "message error";
 
-        data: {
+    }
 
-          full_name:
-            fullName
+    updatePasswordRequirements(
+      password
+    );
+
+    return;
+
+  }
+
+
+  if (
+    confirmInput &&
+    password !== confirmPassword
+  ) {
+
+    if (signupMessage) {
+
+      signupMessage.textContent =
+        "Passwords do not match.";
+
+      signupMessage.className =
+        "message error";
+
+    }
+
+    return;
+
+  }
+
+
+  const submitButton =
+    event.submitter ||
+    $("signupForm")
+      ?.querySelector(
+        'button[type="submit"]'
+      );
+
+
+  const originalButtonHTML =
+    submitButton?.innerHTML;
+
+
+  try {
+
+    if (submitButton) {
+
+      submitButton.disabled =
+        true;
+
+      submitButton.innerHTML =
+        "Creating account...";
+
+    }
+
+
+    /*
+       IMPORTANT FIX
+
+       This tells Supabase where the user should
+       return after clicking the confirmation link.
+
+       On GitHub Pages:
+
+       https://valarbravewear.github.io/academic-vault/
+    */
+
+    const redirectUrl =
+      getAuthRedirectUrl();
+
+
+    const {
+      data,
+      error
+    } =
+      await db.auth.signUp({
+
+        email:
+          email,
+
+        password:
+          password,
+
+        options: {
+
+          emailRedirectTo:
+            redirectUrl,
+
+          data: {
+
+            full_name:
+              fullName
+
+          }
 
         }
 
+      });
+
+
+    if (error) {
+
+      console.error(
+        "Signup error:",
+        error
+      );
+
+
+      if (signupMessage) {
+
+        signupMessage.textContent =
+          error.message ||
+          "Could not create your account.";
+
+        signupMessage.className =
+          "message error";
+
       }
 
-    });
+      return;
+
+    }
 
 
-  if (error) {
+    /*
+       If email confirmation is enabled,
+       Supabase normally returns a user but
+       no active session.
+    */
 
-    message(
-      "signupMessage",
-      error.message
+    if (
+      data?.user &&
+      !data?.session
+    ) {
+
+      if (signupMessage) {
+
+        signupMessage.textContent =
+          "Account created. Please check your email and click the confirmation link.";
+
+        signupMessage.className =
+          "message success";
+
+      }
+
+
+      toast(
+        "Check your email to confirm your account."
+      );
+
+
+      return;
+
+    }
+
+
+    /*
+       If email confirmation is disabled,
+       the user may receive a session immediately.
+    */
+
+    if (
+      data?.user &&
+      data?.session
+    ) {
+
+      currentUser =
+        data.user;
+
+
+      if (signupMessage) {
+
+        signupMessage.textContent =
+          "Account created successfully. Opening Academic Vault...";
+
+        signupMessage.className =
+          "message success";
+
+      }
+
+
+      await openApp();
+
+    }
+
+
+  } catch (error) {
+
+    console.error(
+      "Signup error:",
+      error
     );
 
-    return;
-  }
 
+    if (signupMessage) {
 
-  if (data?.session) {
+      signupMessage.textContent =
+        "Something went wrong while creating your account. Please try again.";
 
-    currentUser =
-      data.user;
+      signupMessage.className =
+        "message error";
 
+    }
 
-    toast(
-      "Account created."
-    );
+  } finally {
 
+    if (submitButton) {
 
-    await openApp();
+      submitButton.disabled =
+        false;
 
+      submitButton.innerHTML =
+        originalButtonHTML ||
+        "Create account";
 
-  } else {
-
-    message(
-      "signupMessage",
-      "Account created. Check your email to confirm your account.",
-      true
-    );
+    }
 
   }
 
@@ -757,10 +1420,22 @@ async function handleSignup(event) {
 
 async function handleLogout() {
 
-  await db.auth.signOut();
+  try {
+
+    await db.auth.signOut();
+
+  } catch (error) {
+
+    console.error(
+      "Logout error:",
+      error
+    );
+
+  }
 
 
-  currentUser = null;
+  currentUser =
+    null;
 
 
   semesters = [];
@@ -786,18 +1461,51 @@ async function handleLogout() {
 
 async function openApp() {
 
+  if (!currentUser) return;
+
+
   hide("authShell");
 
   show("app");
 
 
-  await loadAll();
+  /*
+     Prevent duplicate loading if both the
+     login function and Supabase auth listener
+     try to open the app at the same time.
+  */
+
+  if (openingApp) return;
 
 
-  await loadProfile();
+  openingApp = true;
 
 
-  renderAll();
+  try {
+
+    await loadAll();
+
+    await loadProfile();
+
+    renderAll();
+
+  } catch (error) {
+
+    console.error(
+      "Could not fully open Academic Vault:",
+      error
+    );
+
+
+    toast(
+      "Signed in, but some data could not be loaded."
+    );
+
+  } finally {
+
+    openingApp = false;
+
+  }
 
 }
 
@@ -833,19 +1541,6 @@ async function loadAll() {
 
 /* =========================================================
    CREATE 8 SEMESTERS AUTOMATICALLY
-=========================================================
-
-   Year 1 Semester 1
-   Year 1 Semester 2
-
-   Year 2 Semester 1
-   Year 2 Semester 2
-
-   Year 3 Semester 1
-   Year 3 Semester 2
-
-   Year 4 Semester 1
-   Year 4 Semester 2
 ========================================================= */
 
 async function ensureSemesters() {
@@ -873,6 +1568,7 @@ async function ensureSemesters() {
     );
 
     return;
+
   }
 
 
@@ -990,6 +1686,7 @@ async function loadSemesters() {
     );
 
     return;
+
   }
 
 
@@ -1032,6 +1729,7 @@ async function loadModules() {
     );
 
     return;
+
   }
 
 
@@ -1074,6 +1772,7 @@ async function loadRecords() {
     );
 
     return;
+
   }
 
 
@@ -1116,6 +1815,7 @@ async function loadPayments() {
     );
 
     return;
+
   }
 
 
@@ -1158,6 +1858,7 @@ async function loadDocuments() {
     );
 
     return;
+
   }
 
 
@@ -1238,6 +1939,7 @@ function renderSemesters() {
     `;
 
     return;
+
   }
 
 
@@ -1311,8 +2013,12 @@ function openModuleModal() {
     ?.reset();
 
 
-  $("moduleMessage").textContent =
-    "";
+  if ($("moduleMessage")) {
+
+    $("moduleMessage").textContent =
+      "";
+
+  }
 
 
   $("moduleModal")
@@ -1364,6 +2070,7 @@ async function saveModule(event) {
     );
 
     return;
+
   }
 
 
@@ -1381,6 +2088,7 @@ async function saveModule(event) {
     );
 
     return;
+
   }
 
 
@@ -1430,6 +2138,7 @@ async function saveModule(event) {
     );
 
     return;
+
   }
 
 
@@ -1439,7 +2148,6 @@ async function saveModule(event) {
 
 
   await loadModules();
-
 
   renderAll();
 
@@ -1543,6 +2251,7 @@ function renderModules() {
     `;
 
     return;
+
   }
 
 
@@ -1862,6 +2571,7 @@ async function saveResult(event) {
     );
 
     return;
+
   }
 
 
@@ -1879,6 +2589,7 @@ async function saveResult(event) {
     );
 
     return;
+
   }
 
 
@@ -1900,7 +2611,6 @@ async function saveResult(event) {
             .value,
 
         title:
-
           title,
 
         mark:
@@ -1947,6 +2657,7 @@ async function saveResult(event) {
     );
 
     return;
+
   }
 
 
@@ -1956,7 +2667,6 @@ async function saveResult(event) {
 
 
   await loadRecords();
-
 
   renderAll();
 
@@ -1974,7 +2684,6 @@ async function saveResult(event) {
 
 window.deleteModule =
   async function(moduleId) {
-
 
     if (
       !confirm(
@@ -2017,7 +2726,6 @@ window.deleteModule =
     await loadModules();
 
     await loadRecords();
-
 
     renderAll();
 
@@ -2085,6 +2793,7 @@ function populateAssignmentModules() {
     `;
 
     return;
+
   }
 
 
@@ -2159,6 +2868,7 @@ async function saveAssignment(event) {
     );
 
     return;
+
   }
 
 
@@ -2176,6 +2886,7 @@ async function saveAssignment(event) {
     );
 
     return;
+
   }
 
 
@@ -2237,6 +2948,7 @@ async function saveAssignment(event) {
     );
 
     return;
+
   }
 
 
@@ -2246,7 +2958,6 @@ async function saveAssignment(event) {
 
 
   await loadRecords();
-
 
   renderAll();
 
@@ -2288,6 +2999,7 @@ function renderAssignments() {
     `;
 
     return;
+
   }
 
 
@@ -2505,6 +3217,7 @@ async function savePayment(event) {
     );
 
     return;
+
   }
 
 
@@ -2527,6 +3240,7 @@ async function savePayment(event) {
     );
 
     return;
+
   }
 
 
@@ -2587,6 +3301,7 @@ async function savePayment(event) {
     );
 
     return;
+
   }
 
 
@@ -2604,8 +3319,6 @@ async function savePayment(event) {
 
     try {
 
-      /* MAXIMUM 10 MB */
-
       const maxSize =
         10 * 1024 * 1024;
 
@@ -2621,8 +3334,6 @@ async function savePayment(event) {
 
       }
 
-
-      /* SAFE FILE NAME */
 
       const safeFileName =
         file.name.replace(
@@ -2658,8 +3369,6 @@ async function savePayment(event) {
 
       }
 
-
-      /* SAVE DOCUMENT INFORMATION */
 
       const {
         error:
@@ -2793,6 +3502,7 @@ function renderPayments() {
     `;
 
     return;
+
   }
 
 
@@ -2966,6 +3676,7 @@ async function getDocumentURL(path) {
     );
 
     return null;
+
   }
 
 
@@ -2999,6 +3710,7 @@ async function renderDocuments() {
     `;
 
     return;
+
   }
 
 
@@ -3145,6 +3857,7 @@ window.openDocument =
       );
 
       return;
+
     }
 
 
@@ -3161,6 +3874,7 @@ window.openDocument =
       );
 
       return;
+
     }
 
 
@@ -3203,10 +3917,9 @@ async function loadProfile() {
     );
 
     return;
+
   }
 
-
-  /* NO PROFILE YET */
 
   if (!data) {
 
@@ -3234,6 +3947,7 @@ async function loadProfile() {
     populateDashboard();
 
     return;
+
   }
 
 
@@ -3358,6 +4072,7 @@ async function saveProfile(event) {
     );
 
     return;
+
   }
 
 
@@ -3394,7 +4109,6 @@ async function saveProfile(event) {
 function switchSection(
   sectionId
 ) {
-
 
   document
     .querySelectorAll(
@@ -3437,8 +4151,6 @@ function switchSection(
     );
 
 
-  /* DASHBOARD */
-
   if (
     sectionId ===
     "dashboardSection"
@@ -3451,8 +4163,6 @@ function switchSection(
   }
 
 
-  /* RESULTS */
-
   if (
     sectionId ===
     "resultsSection"
@@ -3462,8 +4172,6 @@ function switchSection(
 
   }
 
-
-  /* ASSIGNMENTS */
 
   if (
     sectionId ===
@@ -3475,8 +4183,6 @@ function switchSection(
   }
 
 
-  /* PAYMENTS */
-
   if (
     sectionId ===
     "paymentsSection"
@@ -3486,8 +4192,6 @@ function switchSection(
 
   }
 
-
-  /* DOCUMENTS */
 
   if (
     sectionId ===
@@ -3521,95 +4225,6 @@ function renderAll() {
 
   populateAssignmentModules();
 
-}
-/* =========================================================
-   SIGNUP PASSWORD VALIDATION
-========================================================= */
-
-const signupPassword = document.getElementById("signupPassword");
-const signupPasswordToggle =
-  document.getElementById("signupPasswordToggle");
-
-const reqLength = document.getElementById("reqLength");
-const reqUpper = document.getElementById("reqUpper");
-const reqLower = document.getElementById("reqLower");
-const reqNumber = document.getElementById("reqNumber");
-const reqSymbol = document.getElementById("reqSymbol");
-
-
-function validateSignupPassword(password) {
-  return (
-    password.length >= 8 &&
-    /[A-Z]/.test(password) &&
-    /[a-z]/.test(password) &&
-    /[0-9]/.test(password) &&
-    /[^A-Za-z0-9]/.test(password)
-  );
-}
-
-
-function updatePasswordRequirements(password) {
-  const checks = {
-    length: password.length >= 8,
-    upper: /[A-Z]/.test(password),
-    lower: /[a-z]/.test(password),
-    number: /[0-9]/.test(password),
-    symbol: /[^A-Za-z0-9]/.test(password)
-  };
-
-  reqLength.textContent =
-    `${checks.length ? "✓" : "○"} 8+ characters`;
-
-  reqUpper.textContent =
-    `${checks.upper ? "✓" : "○"} Uppercase letter`;
-
-  reqLower.textContent =
-    `${checks.lower ? "✓" : "○"} Lowercase letter`;
-
-  reqNumber.textContent =
-    `${checks.number ? "✓" : "○"} Number`;
-
-  reqSymbol.textContent =
-    `${checks.symbol ? "✓" : "○"} Symbol`;
-
-  reqLength.classList.toggle("valid", checks.length);
-  reqUpper.classList.toggle("valid", checks.upper);
-  reqLower.classList.toggle("valid", checks.lower);
-  reqNumber.classList.toggle("valid", checks.number);
-  reqSymbol.classList.toggle("valid", checks.symbol);
-
-  return Object.values(checks).every(Boolean);
-}
-
-
-if (signupPassword) {
-  signupPassword.addEventListener("input", () => {
-    updatePasswordRequirements(signupPassword.value);
-  });
-}
-
-
-if (signupPasswordToggle && signupPassword) {
-  signupPasswordToggle.addEventListener("click", () => {
-    const showing = signupPassword.type === "text";
-
-    signupPassword.type = showing ? "password" : "text";
-
-    signupPasswordToggle.classList.toggle(
-      "showing",
-      !showing
-    );
-
-    signupPasswordToggle.setAttribute(
-      "aria-label",
-      showing ? "Show password" : "Hide password"
-    );
-
-    signupPasswordToggle.setAttribute(
-      "aria-pressed",
-      String(!showing)
-    );
-  });
 }
 
 
